@@ -24,4 +24,8 @@ QMODEM_AUTORELEASE = $(if $(DUMP),0,$(call qmodem_commitcount,1))
 # apk-tools accepts prerelease suffixes in _rcN form. PKG_RELEASE must remain
 # numeric because OpenWrt appends it as -rN to the package version.
 QMODEM_VERSION:=3.4.0_rc3
-QMODEM_RELEASE:=$(QMODEM_AUTORELEASE)
+# QuartzWrt（受控 Fork）: feeds 对 ^SHA 锁定走 scripts/feeds 的 --depth 1 浅克隆，
+# 上游基于 git commit-count 的自动 release 在该形态下恒为 1（实测 rev-list --count = 1），
+# 会导致 bump 锁定 commit 后版本号不变、apk 无法升级。故固定 release，由 QuartzWrt
+# 发布流程手动 bump（见 QuartzWrt-ThirdParty/docs/FORKS.md）。
+QMODEM_RELEASE:=1
